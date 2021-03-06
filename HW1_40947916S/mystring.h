@@ -164,14 +164,30 @@ char *mystrtok(char *str, const char *delim)
             {
                 if (*(ptr + count) == *(delim + i))
                 {
+                    i32 j = 1;
                     *(ptr + count) = '\0';
-                    char *tmp = (char *)(ptr);
-                    ptr = (char *)(ptr + count + 1);
-                    return tmp;
+                    while (*(ptr + count + j) != '\0')
+                    {
+                        i32 k = 0;
+                        i32 same = 0;
+                        while (*(delim + k) != '\0')
+                        {
+                            printf("y %c %c\n", *(ptr + count + j), *(delim + k));
+                            if (*(ptr + count + j + 1) == *(delim + k) && *(ptr + count + j + 1) != '\0')
+                            {
+                                same = 1;
+                                j++;
+                            }
+                            k++;
+                        }
+                        if (!same)
+                            break;
+                    }
+                    ptr = (char *)(ptr + count + j);
+                    return ptr;
                 }
                 i++;
             }
-
             count++;
         }
         char *tmp = (char *)(ptr);
@@ -189,8 +205,26 @@ char *mystrtok(char *str, const char *delim)
             {
                 if (*(str + count) == *(delim + i))
                 {
+                    i32 j = 1;
                     *(str + count) = '\0';
-                    ptr = (char *)(str + count + 1);
+                    while (*(str + count + j) != '\0')
+                    {
+                        i32 k = 0;
+                        i32 same = 0;
+                        while (*(delim + k) != '\0')
+                        {
+                            printf("%c %c\n", *(str + count + j), *(delim + k));
+                            if (*(str + count + j) == *(delim + k) && *(str + count + j) != '\0')
+                            {
+                                same = 1;
+                                j++;
+                            }
+                            k++;
+                        }
+                        if (!same)
+                            break;
+                    }
+                    ptr = (char *)(str + count + j);
                     return str;
                 }
                 i++;

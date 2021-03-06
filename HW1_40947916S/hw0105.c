@@ -38,10 +38,9 @@ int main()
 
     printf("\n");
 
-    char str3[] = "the value of pi is 3.14";
+    char str3[] = "the      value of pi is 3.14";
     char *token = mystrtok(str3, " ");
     int32_t i = 0;
-
     while (token != NULL)
     {
         printf("%d: %s\n", i, token);
