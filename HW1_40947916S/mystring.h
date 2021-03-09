@@ -150,87 +150,68 @@ char *mystrtok(char *str, const char *delim)
     static char *ptr = NULL;
     if (str == NULL)
     {
-        i32 count = 1;
-        //printf("%c \n", *(ptr + count));
-        if (*(ptr) == '\0')
+        if (ptr == NULL)
         {
-            ptr = NULL;
             return NULL;
         }
-        while (*(ptr + count) != '\0')
+        char *a = ptr;
+        i32 first = 0;
+        char *tmp = a;
+        //printf("%c\n", *a);
+        while (*a != '\0')
         {
-            i32 i = 0;
-            while (*(delim + i) != '\0')
+            char *s = mystrchr(delim, *a);
+            if (*(a + 1) == '\0')
             {
-                if (*(ptr + count) == *(delim + i))
-                {
-                    i32 j = 1;
-                    *(ptr + count) = '\0';
-                    while (*(ptr + count + j) != '\0')
-                    {
-                        i32 k = 0;
-                        i32 same = 0;
-                        while (*(delim + k) != '\0')
-                        {
-                            printf("y %c %c\n", *(ptr + count + j), *(delim + k));
-                            if (*(ptr + count + j + 1) == *(delim + k) && *(ptr + count + j + 1) != '\0')
-                            {
-                                same = 1;
-                                j++;
-                            }
-                            k++;
-                        }
-                        if (!same)
-                            break;
-                    }
-                    ptr = (char *)(ptr + count + j);
-                    return ptr;
-                }
-                i++;
+                ptr = NULL;
+                return tmp;
             }
-            count++;
+            if (s != NULL)
+            {
+                first = 1;
+                *a = '\0';
+                a++;
+                ptr = a;
+            }
+            else if (first)
+            {
+                break;
+            }
+            else
+            {
+                a++;
+            }
         }
-        char *tmp = (char *)(ptr);
-        ptr = (char *)(ptr + count);
-        return tmp;
+        if (first)
+            return tmp;
+        else
+            return NULL;
     }
     else
     {
-        ptr = str;
-        i32 count = 0;
-        while (*(str + count) != '\0')
+        char *a = str;
+        int first = 0;
+        while (*a != '\0')
         {
-            i32 i = 0;
-            while (*(delim + i) != '\0')
+            char *s = mystrchr(delim, *a);
+            if (s != NULL)
             {
-                if (*(str + count) == *(delim + i))
-                {
-                    i32 j = 1;
-                    *(str + count) = '\0';
-                    while (*(str + count + j) != '\0')
-                    {
-                        i32 k = 0;
-                        i32 same = 0;
-                        while (*(delim + k) != '\0')
-                        {
-                            printf("%c %c\n", *(str + count + j), *(delim + k));
-                            if (*(str + count + j) == *(delim + k) && *(str + count + j) != '\0')
-                            {
-                                same = 1;
-                                j++;
-                            }
-                            k++;
-                        }
-                        if (!same)
-                            break;
-                    }
-                    ptr = (char *)(str + count + j);
-                    return str;
-                }
-                i++;
+                first = 1;
+                *a = '\0';
+                a++;
+                ptr = a;
             }
-            count++;
+            else if (first)
+            {
+                break;
+            }
+            else
+            {
+                a++;
+            }
         }
-        return NULL;
+        if (!first)
+            ptr = a;
+        return str;
     }
 }

@@ -49,6 +49,10 @@ int main()
         count++;
     }
     printf("\n");
+    if (c != 0)
+    {
+        printf("ERROR. The string should end with two 0s\n");
+    }
     return 0;
 }
 
