@@ -61,8 +61,8 @@ int main()
     printf("Please open a season record: ");
     FILE *sr = NULL;
     char filename[50] = "a.csv";
-    // memset(filename, 0, sizeof(filename));
-    // fgets(filename, 49, stdin);
+    memset(filename, 0, sizeof(filename));
+    fgets(filename, 49, stdin);
     filename[strcspn(filename, "\n")] = '\0';
     const char *dot = strrchr(filename, '.');
     const char csv[5] = ".csv";
@@ -82,7 +82,7 @@ int main()
     memset(line, 0, sizeof(line));
     u32 gi = 0;
     gameinfo games[380];
-    memset(games, 0, sizeof(gameinfo));
+    memset(games, 0, sizeof(games));
 
     while (!feof(sr))
     {
@@ -94,7 +94,7 @@ int main()
     }
     u32 counts = 0;
     teaminfo teams[20];
-    memset(teams, 0, sizeof(teaminfo));
+    memset(teams, 0, sizeof(teams));
     fclose(sr);
     i32 gameindex = 0;
     while (counts < 20)
@@ -151,24 +151,28 @@ int main()
     {
         teams[i].w = teams[i].wa + teams[i].wh;
         teams[i].score = (teams[i].w * 3) + teams[i].d;
-        printf("%s,red : %u,wh %u, wa %u\n", teams[i].name, teams[i].red, teams[i].wh, teams[i].wa);
+        printf("%s,red : %u,goal %u, ga %u\n", teams[i].name, teams[i].red, teams[i].goal, teams[i].goaled);
     }
     //storing games stat into teams
     u32 opi = -1;
     void (*f[7])(teaminfo t[20], gameinfo g[380]) = {win, sc, rc, wh, wa, gap, st};
+    printMenu();
     while (1)
     {
-        printMenu();
+        printf("Choice (1-7, 8:exit): ");
         scanf("%d", &opi);
         while (opi < 1 || opi > 8)
         {
             printf("Invalid choice,please try again.\n");
+            printf("Choice (1-7, 8:exit): ");
             scanf("%d", &opi);
         }
         if (opi == 8)
             break;
-        else
+        else if (opi >= 1 && opi < 8)
         {
+            while ((getchar()) != '\n')
+                ;
             f[opi - 1](teams, games);
         }
     }
@@ -178,7 +182,7 @@ int main()
 void printMenu()
 {
     printf("1) Who is the winner in this season?\n2) Which team gets the most scores?\n3) Which team gets the most red cards?\n4) Which team wins the most games at home?\n5) Which team wins the most games away from home?\n6) Which game has the most scoring gap?\n7) Team information.\n8) Exit \n");
-    printf("Choice (1-7, 8:exit): ");
+
     return;
 }
 
@@ -203,14 +207,15 @@ void sc(teaminfo t[20], gameinfo g[380])
     u32 maxsc = 0;
     for (i32 i = 0; i < 20; i++)
     {
-        if (t[i].score > maxsc)
-            maxsc = t[i].score;
+        if (t[i].goal > maxsc)
+            maxsc = t[i].goal;
     }
     for (i32 i = 0; i < 20; i++)
     {
-        if (t[i].score == maxsc)
-            printf("%s, %u\n", t[i].name, t[i].score);
+        if (t[i].goal == maxsc)
+            printf("%s, ", t[i].name);
     }
+    printf("%u\n", maxsc);
     return;
 }
 void rc(teaminfo t[20], gameinfo g[380])
@@ -223,9 +228,10 @@ void rc(teaminfo t[20], gameinfo g[380])
     }
     for (i32 i = 0; i < 20; i++)
     {
-        if (t[i].w == maxrc)
-            printf("%s, %u\n", t[i].name, t[i].red);
+        if (t[i].red == maxrc)
+            printf("%s, ", t[i].name);
     }
+    printf("%u\n", maxrc);
     return;
 }
 void wh(teaminfo t[20], gameinfo g[380])
@@ -239,8 +245,9 @@ void wh(teaminfo t[20], gameinfo g[380])
     for (i32 i = 0; i < 20; i++)
     {
         if (t[i].wh == maxwh)
-            printf("%s, %u\n", t[i].name, t[i].wh);
+            printf("%s, ", t[i].name);
     }
+    printf("%u\n", maxwh);
     return;
 }
 void wa(teaminfo t[20], gameinfo g[380])
@@ -254,8 +261,9 @@ void wa(teaminfo t[20], gameinfo g[380])
     for (i32 i = 0; i < 20; i++)
     {
         if (t[i].wa == maxwa)
-            printf("%s, %u\n", t[i].name, t[i].wa);
+            printf("%s, ", t[i].name);
     }
+    printf("%u\n", maxwa);
     return;
 }
 
@@ -279,6 +287,7 @@ void gap(teaminfo t[20], gameinfo g[380])
 
 void st(teaminfo t[20], gameinfo g[380])
 {
+
     char input[100];
     memset(input, 0, 100);
     printf("Team : ");
