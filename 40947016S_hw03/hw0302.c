@@ -151,7 +151,7 @@ int main()
     {
         teams[i].w = teams[i].wa + teams[i].wh;
         teams[i].score = (teams[i].w * 3) + teams[i].d;
-        printf("%s,red : %u,goal %u, ga %u\n", teams[i].name, teams[i].red, teams[i].goal, teams[i].goaled);
+        //printf("%s,red : %u,goal %u, ga %u\n", teams[i].name, teams[i].red, teams[i].goal, teams[i].goaled);
     }
     //storing games stat into teams
     u32 opi = -1;
@@ -171,8 +171,6 @@ int main()
             break;
         else if (opi >= 1 && opi < 8)
         {
-            while ((getchar()) != '\n')
-                ;
             f[opi - 1](teams, games);
         }
     }
