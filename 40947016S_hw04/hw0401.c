@@ -6,12 +6,8 @@
 #include "unistd.h"
 
 #define i32 int32_t
-#define i64 int64_t
 #define i16 int16_t
-#define i8 int8_t
 #define u32 uint32_t
-#define u64 uint64_t
-#define u16 uint16_t
 #define u8 uint8_t
 #define block 4096
 typedef struct _header
@@ -20,7 +16,6 @@ typedef struct _header
     u32 fileorder;
     u32 size;
 } __attribute__((__packed__)) header;
-
 struct option long_options[] =
     {
         {"split", 1, NULL, 's'},
@@ -30,7 +25,6 @@ struct option long_options[] =
 };
 typedef char string[200];
 const char *helpMenu = "Split:\n./hw0401 -s [file] --size [Small File Size]\nThe default small file size is 1000 bytes.\nRecover :\n./ hw0401 - r[output file][small files] 10 The input small files may not be in order.";
-
 void recover(string f, string s[], i32 cnt);
 void split(string f, i32 size);
 void printMenu()
@@ -115,7 +109,6 @@ int main(i32 argc, char *argv[])
     }
     return 0;
 }
-
 void recover(string f, string s[], i32 fcnt)
 {
     FILE *w = fopen(f, "w");

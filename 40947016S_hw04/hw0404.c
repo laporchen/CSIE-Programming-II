@@ -29,27 +29,6 @@ typedef struct _LFHeader //30bytes
     u16 FieldLength;
 } __attribute__((__packed__)) LFHeader;
 
-typedef struct _CDHeader //46 bytes
-{
-    u32 PK;
-    u16 version;
-    u16 verion2extract;
-    u16 bitFlag;
-    u16 method;
-    u16 time;
-    u16 date;
-    u32 crc32;
-    u32 cSize;
-    u32 uCSize;
-    u16 nameLength;
-    u16 FieldLength;
-    u16 commentLength;
-    u16 diskNum;
-    u16 internalFileAttribute;
-    u32 externalFileAttribute;
-    u32 relativeOffset;
-} __attribute__((__packed__)) CDHeader;
-
 i32 slashcount(char a[], i32 len);
 
 int main(int argc, char *argv[])

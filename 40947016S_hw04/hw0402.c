@@ -12,7 +12,6 @@ typedef struct _var
     char original[32];
     char new[32];
 } var;
-
 struct option long_options[] =
     {
         {"help", 0, NULL, 'h'},
@@ -21,25 +20,20 @@ struct option long_options[] =
         {"ouput", 1, NULL, 'o'},
         {0, 0, 0, 0},
 };
-typedef char string[32];
-
-const string keyword[2] = {"int", "char"};
-
+typedef char string[300];
+const string keyword[2] = {"int ", "char "};
 i32 varCount = 0;
-
 FILE *buf = NULL, *buf2 = NULL;
 string bufferFileName = "hw0402buf_X2323F7.buf";
 string bufferFileName2 = "hw0402buf_X4422F7.buf";
-
 int openFile(char *path, FILE *fileptr, char *mode);
-char *obfusion();
+void obfusion(string a);
 void printHelpMenu();
 void level1(FILE *i);
 void level2(FILE *i);
 void level3(FILE *i);
 void level4(FILE *i);
 void (*func[4])(FILE *i) = {level1, level2, level3, level4};
-
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
@@ -167,6 +161,28 @@ void level1(FILE *i)
 void level2(FILE *i)
 {
     buf2 = fopen(bufferFileName2, "w");
+
+    while (1)
+    {
+        if (feof(i))
+            break;
+        string readline = {0};
+        while (1)
+        {
+            char c = fgetc(i);
+            strncat(readline, &c, 1);
+            if (c == '(' || c == ')' || c == ';')
+            {
+                break;
+            }
+        }
+        char *ptr = NULL;
+        while ((ptr = strstr(readline, keyword[0])) != NULL)
+        {
+        }
+        fwrite(readline, sizeof(readline), 1, buf2);
+    }
+
     fclose(buf);
     fclose(buf2);
     fclose(i);
@@ -177,6 +193,9 @@ void level2(FILE *i)
 void level3(FILE *i)
 {
     buf = fopen(bufferFileName2, "w");
+
+    fclose(buf);
+    fopen(bufferFileName, "r");
     level2(buf);
     return;
 }
@@ -184,16 +203,16 @@ void level4(FILE *i)
 {
     buf2 = fopen(bufferFileName2, "w");
 
+    fclose(buf2);
+    fopen(bufferFileName2, "r");
     level3(buf2);
 }
-
 void printHelpMenu()
 {
     printf("./hw0402 -l [options] -i [input file] -o [output file]\n./hw0402 -h\n./hw0402 --help\n");
     return;
 }
-
-char *obfusion()
+void obfusion(string a)
 {
     char generate[17] = {0};
     if (rand() % 2)
@@ -214,6 +233,7 @@ char *obfusion()
             generate[i] = '0' + rand() % 10;
         }
     }
+    strncpy(a, generate, sizeof(char) * strlen(a));
 
-    return generate;
+    return;
 }
