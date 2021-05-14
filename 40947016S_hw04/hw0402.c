@@ -172,17 +172,17 @@ void level2(FILE *i)
             char c = fgetc(i);
             strncat(readline, &c, 1);
             if (c == '(' || c == ')' || c == ';')
-            {
                 break;
-            }
         }
         char *ptr = NULL;
-        while ((ptr = strstr(readline, keyword[0])) != NULL)
+        ptr = strstr(readline, keyword[0]);
+        while (ptr != NULL)
         {
+
+            ptr = strstr(ptr, keyword[0]);
         }
         fwrite(readline, sizeof(readline), 1, buf2);
     }
-
     fclose(buf);
     fclose(buf2);
     fclose(i);
