@@ -43,6 +43,9 @@ int main(i32 argc, char *argv[])
                 urlWithKeyword = (char *)calloc(size, sizeof(char));
                 strncpy(urlWithKeyword, "https://dblp.org/search?q=", strlen(url));
                 strncat(urlWithKeyword, optarg, strlen(optarg));
+                char *ptr = NULL;
+                while((ptr = strchr(urlWithKeyword, ' '))!= NULL)
+                    *ptr = '-';
             }
             else
                 terminate = 1;
@@ -57,7 +60,6 @@ int main(i32 argc, char *argv[])
     }
     if (help)
     {
-        getQuery();
         printf("\t./hw0503 -q keyword\n");
     }
     else if (terminate)
